@@ -63,6 +63,7 @@ public class JpaConfiguration implements Toggleable {
     private boolean compileTimeHibernateProxies;
     private boolean reactive;
     private boolean enabled = true;
+    private boolean allowDataSourceLookup = true;
 
     /**
      * @param applicationContext The application context
@@ -215,6 +216,25 @@ public class JpaConfiguration implements Toggleable {
     }
 
     /**
+     * @return whether DataSource bean lookup is allowed
+     */
+    public boolean isAllowDataSourceLookup() {
+        return allowDataSourceLookup;
+    }
+
+    /**
+     * Sets whether the DataSource bean should be looked up and injected into Hibernate.
+     * When set to false, Hibernate will not attempt to lookup a DataSource bean,
+     * which is useful for scenarios where the connection is managed externally
+     * (e.g., through JDBC URL in properties) or for reactive configurations.
+     *
+     * @param allowDataSourceLookup true to allow DataSource lookup (default), false to disable
+     */
+    public void setAllowDataSourceLookup(boolean allowDataSourceLookup) {
+        this.allowDataSourceLookup = allowDataSourceLookup;
+    }
+
+    /**
      * Copies current configuration.
      *
      * @param name A new name
@@ -226,6 +246,7 @@ public class JpaConfiguration implements Toggleable {
         jpaConfiguration.setMappingResources(new ArrayList<>(this.getMappingResources()));
         jpaConfiguration.setCompileTimeHibernateProxies(compileTimeHibernateProxies);
         jpaConfiguration.setReactive(reactive);
+        jpaConfiguration.setAllowDataSourceLookup(allowDataSourceLookup);
         return jpaConfiguration;
     }
 
