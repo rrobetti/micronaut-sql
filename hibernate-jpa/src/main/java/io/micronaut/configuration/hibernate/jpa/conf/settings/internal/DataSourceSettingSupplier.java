@@ -20,6 +20,7 @@ import io.micronaut.configuration.hibernate.jpa.conf.settings.SettingsSupplier;
 import io.micronaut.context.BeanProvider;
 import io.micronaut.context.annotation.Any;
 import io.micronaut.context.annotation.Prototype;
+import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.annotation.Internal;
 import org.jspecify.annotations.Nullable;
 import io.micronaut.inject.qualifiers.Qualifiers;
@@ -37,6 +38,7 @@ import java.util.Map;
  * @since 4.5.0
  */
 @Internal
+@Requires(classes = {DataSource.class, DataSourceResolver.class})
 @Prototype
 final class DataSourceSettingSupplier implements SettingsSupplier {
 
@@ -51,10 +53,6 @@ final class DataSourceSettingSupplier implements SettingsSupplier {
 
     @Override
     public Map<String, Object> supply(JpaConfiguration jpaConfiguration) {
-        // Check if DataSource lookup is allowed by configuration
-        if (!jpaConfiguration.isAllowDataSourceLookup()) {
-            return Collections.emptyMap();
-        }
         DataSource dataSource = dataSourceBeanProvider.find(Qualifiers.byName(jpaConfiguration.getName())).orElse(null);
         if (dataSource == null) {
             return Collections.emptyMap();
