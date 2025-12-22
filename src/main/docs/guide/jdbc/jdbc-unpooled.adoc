@@ -14,6 +14,8 @@ You also need to add a JDBC driver dependency to your classpath. For example, to
 
 dependency:h2[groupId="com.h2database", scope="runtime"]
 
+NOTE: When `datasources.allow-unpooled=true` is set, unpooled datasources will be used **even if** connection pool libraries (HikariCP, Tomcat JDBC, Apache DBCP, Oracle UCP) are present on the classpath. The unpooled configuration takes precedence over pooled configurations.
+
 === Configuration
 
 Configure an unpooled datasource in `application.yml`:

@@ -19,12 +19,14 @@ import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.EachProperty;
 import io.micronaut.context.annotation.Parameter;
 import io.micronaut.context.annotation.Property;
+import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.exceptions.DisabledBeanException;
 import io.micronaut.core.annotation.Internal;
 import io.micronaut.core.convert.format.MapFormat;
 import io.micronaut.core.naming.conventions.StringConvention;
 import io.micronaut.jdbc.BasicJdbcConfiguration;
 import io.micronaut.jdbc.CalculatedSettings;
+import io.micronaut.jdbc.PooledDataSourceEnabled;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +49,7 @@ import java.util.Map;
  */
 @Context
 @EachProperty(value = BasicJdbcConfiguration.PREFIX, primary = "default")
+@Requires(condition = PooledDataSourceEnabled.class)
 public class DatasourceConfiguration extends BasicDataSource implements BasicJdbcConfiguration {
 
     private static final Logger LOG = LoggerFactory.getLogger(DatasourceConfiguration.class);

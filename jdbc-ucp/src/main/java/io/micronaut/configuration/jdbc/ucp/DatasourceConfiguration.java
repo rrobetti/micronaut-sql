@@ -19,10 +19,12 @@ import io.micronaut.context.annotation.ConfigurationBuilder;
 import io.micronaut.context.annotation.Context;
 import io.micronaut.context.annotation.EachProperty;
 import io.micronaut.context.annotation.Parameter;
+import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.exceptions.ConfigurationException;
 import io.micronaut.core.util.StringUtils;
 import io.micronaut.jdbc.BasicJdbcConfiguration;
 import io.micronaut.jdbc.CalculatedSettings;
+import io.micronaut.jdbc.PooledDataSourceEnabled;
 import jakarta.annotation.PostConstruct;
 import oracle.ucp.jdbc.PoolDataSource;
 import oracle.ucp.jdbc.PoolDataSourceFactory;
@@ -48,6 +50,7 @@ import java.util.Properties;
  * @since 2.0.1
  */
 @EachProperty(value = BasicJdbcConfiguration.PREFIX, primary = "default")
+@Requires(condition = PooledDataSourceEnabled.class)
 @Context
 public class DatasourceConfiguration implements BasicJdbcConfiguration {
     private static final Logger LOG = LoggerFactory.getLogger(DatasourceConfiguration.class);

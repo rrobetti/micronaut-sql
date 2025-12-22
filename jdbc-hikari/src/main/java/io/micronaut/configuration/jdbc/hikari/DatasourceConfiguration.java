@@ -18,10 +18,12 @@ package io.micronaut.configuration.jdbc.hikari;
 import com.zaxxer.hikari.HikariConfig;
 import io.micronaut.context.annotation.EachProperty;
 import io.micronaut.context.annotation.Parameter;
+import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.convert.format.MapFormat;
 import io.micronaut.core.naming.conventions.StringConvention;
 import io.micronaut.jdbc.BasicJdbcConfiguration;
 import io.micronaut.jdbc.CalculatedSettings;
+import io.micronaut.jdbc.PooledDataSourceEnabled;
 
 import jakarta.annotation.PostConstruct;
 import java.util.Map;
@@ -39,6 +41,7 @@ import java.util.Map;
  * @since 1.0
  */
 @EachProperty(value = BasicJdbcConfiguration.PREFIX, primary = "default")
+@Requires(condition = PooledDataSourceEnabled.class)
 public class DatasourceConfiguration extends HikariConfig implements BasicJdbcConfiguration {
 
     private CalculatedSettings calculatedSettings;
